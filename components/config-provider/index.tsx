@@ -16,6 +16,7 @@ export interface ConfigConsumerProps {
   renderEmpty: RenderEmptyHandler;
   csp?: CSPConfig;
   autoInsertSpaceInButton?: boolean;
+  layoutDirection?: string;
 }
 
 export const configConsumerProps = [
@@ -25,6 +26,7 @@ export const configConsumerProps = [
   'renderEmpty',
   'csp',
   'autoInsertSpaceInButton',
+  'layoutDirection',
 ];
 
 export interface ConfigProviderProps {
@@ -34,6 +36,7 @@ export interface ConfigProviderProps {
   renderEmpty?: RenderEmptyHandler;
   csp?: CSPConfig;
   autoInsertSpaceInButton?: boolean;
+  layoutDirection?: 'auto' | 'ltr' | 'rtl';
 }
 
 const ConfigContext = createReactContext<ConfigConsumerProps>({
@@ -59,13 +62,21 @@ class ConfigProvider extends React.Component<ConfigProviderProps> {
   };
 
   renderProvider = (context: ConfigConsumerProps) => {
-    const { children, getPopupContainer, renderEmpty, csp, autoInsertSpaceInButton } = this.props;
+    const {
+      children,
+      getPopupContainer,
+      renderEmpty,
+      csp,
+      autoInsertSpaceInButton,
+      layoutDirection,
+    } = this.props;
 
     const config: ConfigConsumerProps = {
       ...context,
       getPrefixCls: this.getPrefixCls,
       csp,
       autoInsertSpaceInButton,
+      layoutDirection,
     };
 
     if (getPopupContainer) {
